@@ -59,11 +59,13 @@ pub fn do_loris(url: &str) {
 
     let timeout = 5000;
     loop {
+        println!("start");
         for connection in &mut connections {
             let loris_header = get_loris_header();
             let res = connection.write_all(&loris_header);
             if res.is_err() {
                 println!("Connection closed!");
+            //std::mem::swap()
             } else {
                 println!("Sleeping! zZzZzZ");
             }
