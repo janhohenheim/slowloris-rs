@@ -31,7 +31,6 @@ pub fn do_loris(url: &str) {
 
     let mut stream = get_stream(&url);
     let init_header = get_init_header(&url);
-    let ayy = b"aht";
     stream.write_all(b"GET / HTTP/1.0\r\n\r\n").unwrap();
     let mut res = vec![];
     stream.read_to_end(&mut res).unwrap();
@@ -61,5 +60,6 @@ where
 
 
 fn get_init_header(url: &Url) -> Vec<u8> {
-    format!("{:b}", "ayy")
+    let ayy = format!("GET /{} HTTP/1.1\r\n", url.path());
+    ayy.as_bytes().to_vec()
 }
