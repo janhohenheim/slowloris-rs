@@ -52,7 +52,7 @@ pub fn do_loris(url: &str) {
     let url = Url::parse(url).unwrap();
 
     let connection_num = 200;
-    let mut connections: Vec<Stream<TcpStream>> = (0..connection_num)
+    let mut connections: Vec<_> = (0..connection_num)
         .map(|_| spawn_connection(&url))
         .collect();
 
