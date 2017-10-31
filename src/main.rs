@@ -1,6 +1,6 @@
 extern crate slowloris;
 
 fn main() {
-    slowloris::do_loris("http://www.sgb.ch/aktuell/").unwrap();
+    slowloris::do_loris("https://www.kinderlagerhischwil.ch/").unwrap();
     println!("Hello, world!");
 }

