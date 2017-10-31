@@ -90,14 +90,6 @@ fn get_stream(url: &Url) -> Stream<TcpStream> {
     }
 }
 
-trait ReadWrite: Read + Write {}
-impl<T> ReadWrite for T
-where
-    T: Read + Write,
-{
-}
-
-
 fn get_init_header(url: &Url) -> Vec<u8> {
     format!("{:b}", "ayy")
 }
