@@ -4,4 +4,5 @@ name = "slowloris"
 version = "0.1.0"
 [dependencies]
 native-tls = "0.1.4"
+rand = "0.3.17"
 url = "1.6.0"

