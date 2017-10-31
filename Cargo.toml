@@ -7,6 +7,8 @@ description = "The slow loris attack, now implemented in Rust! "
 readme = "readme.md"
 documentation = "https://docs.rs/slowloris"
 repository = "https://github.com/SirRade/slowloris-rs"
+keywords = ["slowloris", "slow", "loris", "attack", "dos"]
+categories = ["command-line-utilities", "web-programming"]
 [dependencies]
 native-tls = "0.1.4"
 rand = "0.3.17"
