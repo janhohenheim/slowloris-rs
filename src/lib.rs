@@ -1,13 +1,46 @@
 extern crate native_tls;
 extern crate url;
 extern crate rand;
-use url::Url;
+use url::{Url, ParseError};
 
 use native_tls::{TlsConnector, TlsStream};
 use std::io::{self, Read, Write};
 use std::net::TcpStream;
 use std::time::Duration;
 use std::thread;
+use std::error::Error;
+use std::fmt;
+
+#[derive(Debug)]
+pub enum LorisError {
+    UrlParseError(ParseError),
+}
+
+impl From<ParseError> for LorisError {
+    fn from(err: ParseError) -> Self {
+        LorisError::UrlParseError(err)
+    }
+}
+
+impl fmt::Display for LorisError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.description())
+    }
+}
+
+impl Error for LorisError {
+    fn description(&self) -> &str {
+        match self {
+            &LorisError::UrlParseError(ref err) => err.description(),
+        }
+    }
+
+    fn cause(&self) -> Option<&Error> {
+        match self {
+            &LorisError::UrlParseError(ref err) => Some(err),
+        }
+    }
+}
 
 enum Stream<S>
 where
@@ -48,8 +81,8 @@ where
     }
 }
 
-pub fn do_loris(url: &str) {
-    let url = Url::parse(url).unwrap();
+pub fn do_loris(url: &str) -> Result<(), LorisError> {
+    let url = Url::parse(url)?;
 
     let connection_num = 500;
     let init_header = get_init_header(&url);
