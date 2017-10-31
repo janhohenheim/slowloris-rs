@@ -2,7 +2,8 @@
 authors = ["Jan Nils Ferner <jn_ferner@hotmail.de>, Ruben Schmidmeister <ruben.schmidmeister@icloud.com>"]
 name = "slowloris"
 version = "0.1.0"
-licence = "MIT"
+license = "MIT"
+description = "The slow loris attack, now implemented in Rust! "
 readme = "readme.md"
 documentation = "https://docs.rs/slowloris"
 repository = "https://github.com/SirRade/slowloris-rs"
