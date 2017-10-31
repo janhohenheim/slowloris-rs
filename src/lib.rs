@@ -50,12 +50,11 @@ where
 
 pub fn do_loris(url: &str) {
     let url = Url::parse(url).unwrap();
-    let mut connections = vec![];
+
     let connection_num = 200;
-    for _ in 0..connection_num {
-        let connection = spawn_connection(&url);
-        connections.push(connection);
-    }
+    let mut connections: Vec<Stream<TcpStream>> = (0..connection_num)
+        .map(|_| spawn_connection(&url))
+        .collect();
 
     let timeout = 5000;
     loop {
