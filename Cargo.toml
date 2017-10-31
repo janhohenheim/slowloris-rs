@@ -1,7 +1,11 @@
 [package]
-authors = ["Jan Nils Ferner <jn_ferner@hotmail.de>"]
+authors = ["Jan Nils Ferner <jn_ferner@hotmail.de>, Ruben Schmidmeister <ruben.schmidmeister@icloud.com>"]
 name = "slowloris"
 version = "0.1.0"
+licence = "MIT"
+readme = "readme.md"
+documentation = "https://docs.rs/slowloris"
+repository = "https://github.com/SirRade/slowloris-rs"
 [dependencies]
 native-tls = "0.1.4"
 rand = "0.3.17"
