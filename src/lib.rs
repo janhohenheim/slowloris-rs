@@ -61,8 +61,8 @@ fn get_stream(url: &Url) -> Stream<TcpStream> {
 }
 
 fn spawn_connection(url: &Url, init_header: &[u8]) -> Stream<TcpStream> {
-    let mut stream = get_stream(&url);
-    stream.write_all(&init_header).unwrap();
+    let mut stream = get_stream(url);
+    stream.write_all(init_header).unwrap();
     stream
 }
 

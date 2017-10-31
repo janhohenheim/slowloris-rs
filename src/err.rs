@@ -24,14 +24,14 @@ impl fmt::Display for LorisError {
 
 impl Error for LorisError {
     fn description(&self) -> &str {
-        match self {
-            &LorisError::UrlParseError(ref err) => err.description(),
+        match *self {
+            LorisError::UrlParseError(ref err) => err.description(),
         }
     }
 
     fn cause(&self) -> Option<&Error> {
-        match self {
-            &LorisError::UrlParseError(ref err) => Some(err),
+        match *self {
+            LorisError::UrlParseError(ref err) => Some(err),
         }
     }
 }

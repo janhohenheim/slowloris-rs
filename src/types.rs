@@ -15,9 +15,9 @@ where
     S: Read + Write,
 {
     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
-        match self {
-            &mut Stream::Tls(ref mut stream) => stream.read(buf),
-            &mut Stream::Plain(ref mut stream) => stream.read(buf),
+        match *self {
+            Stream::Tls(ref mut stream) => stream.read(buf),
+            Stream::Plain(ref mut stream) => stream.read(buf),
         }
     }
 }
@@ -27,16 +27,16 @@ where
     S: Read + Write,
 {
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
-        match self {
-            &mut Stream::Tls(ref mut stream) => stream.write(buf),
-            &mut Stream::Plain(ref mut stream) => stream.write(buf),
+        match *self {
+            Stream::Tls(ref mut stream) => stream.write(buf),
+            Stream::Plain(ref mut stream) => stream.write(buf),
         }
     }
 
     fn flush(&mut self) -> io::Result<()> {
-        match self {
-            &mut Stream::Tls(ref mut stream) => stream.flush(),
-            &mut Stream::Plain(ref mut stream) => stream.flush(),
+        match *self {
+            Stream::Tls(ref mut stream) => stream.flush(),
+            Stream::Plain(ref mut stream) => stream.flush(),
         }
     }
 }
