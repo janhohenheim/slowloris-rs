@@ -1,7 +1,6 @@
-#![feature(conservative_impl_trait)]
 extern crate native_tls;
 extern crate url;
-use url::{Host, Url};
+use url::Url;
 
 use native_tls::{TlsConnector, TlsStream};
 use std::io::{self, Read, Write};
@@ -70,7 +69,7 @@ pub fn do_loris(url: &str) {
 
     let mut stream = get_stream(&url);
     let init_header = get_init_header(&url);
-    stream.write_all(b"GET / HTTP/1.0\r\n\r\n").unwrap();
+    stream.write_all(&init_header).unwrap();
     let mut res = vec![];
     stream.read_to_end(&mut res).unwrap();
     println!("{}", String::from_utf8_lossy(&res));
@@ -89,15 +88,9 @@ fn get_stream(url: &Url) -> Stream<TcpStream> {
     }
 }
 
-trait ReadWrite: Read + Write {}
-impl<T> ReadWrite for T
-where
-    T: Read + Write,
-{
-}
-
 
 fn get_init_header(url: &Url) -> Vec<u8> {
     let ayy = format!("GET /{} HTTP/1.1\r\n", url.path());
+    println!("{}", url.path());
     ayy.as_bytes().to_vec()
 }
