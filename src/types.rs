@@ -1,5 +1,4 @@
-extern crate native_tls;
-use self::native_tls::TlsStream;
+use native_tls::TlsStream;
 use std::io::{self, Read, Write};
 
 pub enum Stream<S>

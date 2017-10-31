@@ -9,16 +9,16 @@ extern crate native_tls;
 extern crate url;
 extern crate rand;
 extern crate rayon;
-use url::Url;
 
 use native_tls::TlsConnector;
-use rayon::prelude::*;
+use url::Url;
 use rand::Rng;
+use rayon::prelude::*;
+
 use std::io::Write;
 use std::net::TcpStream;
 use std::time::Duration;
 use std::thread;
-
 
 pub fn do_loris(url: &str) -> Result<(), LorisError> {
     let url = Url::parse(url)?;

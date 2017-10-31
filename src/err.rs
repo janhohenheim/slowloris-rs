@@ -1,8 +1,6 @@
-extern crate url;
-
 use std::fmt;
 use std::error::Error;
-use self::url::ParseError;
+use url::ParseError;
 
 
 #[derive(Debug)]
