@@ -59,16 +59,16 @@ pub fn do_loris(url: &str) {
 
     let timeout = 5000;
     loop {
-        for mut connection in connections {
+        for connection in &mut connections {
             let loris_header = get_loris_header();
             let res = connection.write_all(&loris_header);
             if res.is_err() {
-                println!("Connection closed!")
+                println!("Connection closed!");
             } else {
                 println!("Sleeping! zZzZzZ");
-                thread::sleep(Duration::from_millis(timeout));
             }
         }
+        thread::sleep(Duration::from_millis(timeout));
     }
 }
 
