@@ -29,7 +29,7 @@ pub fn do_loris(url: &str) {
     assert!(!url.cannot_be_a_base());
     */
 
-    let stream = get_stream(&url);
+    let mut stream = get_stream(&url);
     stream.write_all(b"GET / HTTP/1.0\r\n\r\n").unwrap();
     let mut res = vec![];
     stream.read_to_end(&mut res).unwrap();
@@ -38,7 +38,7 @@ pub fn do_loris(url: &str) {
 }
 
 
-fn get_stream<T>(url: &Url) -> Box<ReadWrite> {
+fn get_stream(url: &Url) -> Box<ReadWrite> {
     let domain = url.host_str().unwrap();
     let port = url.port_or_known_default().unwrap();
     let stream = TcpStream::connect((domain, port)).unwrap();
