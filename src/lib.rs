@@ -93,7 +93,7 @@ pub fn do_loris(url: &str) -> Result<(), LorisError> {
         .map(|_| spawn_connection(&url, &init_header))
         .collect();
 
-    let timeout = 4_000;
+    let timeout = 15_000;
     loop {
         println!("Attacking...");
         connections.par_iter_mut().for_each(|connection| {
