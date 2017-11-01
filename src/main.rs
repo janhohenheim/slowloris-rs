@@ -1,13 +1,14 @@
 extern crate slowloris;
+#[macro_use]
 extern crate clap;
 
 use clap::{Arg, App};
 
 fn main() {
-        let matches = App::new("slowloris")
-                          .version("0.2.0")
-                          .author("Jan Nils Ferner <jn_ferner@hotmail.de>, Ruben Schmidmeister <ruben.schmidmeister@icloud.com>")
-                          .about("The slow loris attack, now implemented in Rust!")
+        let matches = App::new(crate_name!())
+                          .version(crate_version!())
+                          .author(crate_authors!())
+                          .about(crate_description!())
                           .arg(Arg::with_name("URL")
                                .help("Specifies which URL to attack")
                                .required(true))
