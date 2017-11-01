@@ -2,13 +2,10 @@ extern crate slowloris;
 #[macro_use]
 extern crate clap;
 
-use clap::{Arg, App};
+use clap::Arg;
 
 fn main() {
-    let matches = App::new(crate_name!())
-        .version(crate_version!())
-        .author(crate_authors!())
-        .about(crate_description!())
+    let matches = app_from_crate!()
         .arg(
             Arg::with_name("URL")
                 .help("Specifies which URL to attack")
