@@ -42,6 +42,5 @@ fn main() {
         .parse::<u64>()
         .expect("Please provide a valid number as requests");
 
-    slowloris::do_loris(&url, timeout, requests).unwrap();
-    println!("Hello, world!");
+    slowloris::do_loris(&url, timeout, requests).expect("Error while attacking");
 }
