@@ -1,15 +1,26 @@
 [package]
-authors = ["Jan Nils Ferner <jn_ferner@hotmail.de>, Ruben Schmidmeister <ruben.schmidmeister@icloud.com>"]
-name = "slowloris"
-version = "0.1.2"
-license = "MIT"
+authors = ["Jan Nils Ferner <jn_ferner@hotmail.de>", "Ruben Schmidmeister <ruben.schmidmeister@icloud.com>"]
+categories = [
+    "command-line-utilities",
+    "web-programming",
+]
 description = "The slow loris attack, now implemented in Rust! "
-readme = "readme.md"
 documentation = "https://docs.rs/slowloris"
+keywords = [
+    "slowloris",
+    "slow",
+    "loris",
+    "attack",
+    "dos",
+]
+license = "MIT"
+name = "slowloris"
+readme = "readme.md"
 repository = "https://github.com/SirRade/slowloris-rs"
-keywords = ["slowloris", "slow", "loris", "attack", "dos"]
-categories = ["command-line-utilities", "web-programming"]
+version = "0.1.2"
+
 [dependencies]
+clap = "2.27.1"
 native-tls = "0.1.4"
 rand = "0.3.17"
 rayon = "0.8.2"

