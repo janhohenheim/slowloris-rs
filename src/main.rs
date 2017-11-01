@@ -5,7 +5,7 @@ use clap::{Arg, App};
 
 fn main() {
         let matches = App::new("slowloris")
-                          .version("0.1.3")
+                          .version("0.2.0")
                           .author("Jan Nils Ferner <jn_ferner@hotmail.de>, Ruben Schmidmeister <ruben.schmidmeister@icloud.com>")
                           .about("The slow loris attack, now implemented in Rust!")
                           .arg(Arg::with_name("URL")
