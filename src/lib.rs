@@ -20,7 +20,7 @@ use std::net::TcpStream;
 use std::time::Duration;
 use std::thread;
 
-pub fn do_loris(url: &str, timeout: u64, requests: u64) -> Result<(), LorisError> {
+pub fn attack(url: &str, timeout: u64, requests: u64) -> Result<(), LorisError> {
     let url = Url::parse(url)?;
     let init_header = get_init_header(&url);
     let mut connections: Vec<_> = (0..requests)
