@@ -2,7 +2,6 @@ use std::fmt;
 use std::error::Error;
 use url::ParseError;
 
-
 #[derive(Debug)]
 pub enum LorisError {
     UrlParseError(ParseError),
