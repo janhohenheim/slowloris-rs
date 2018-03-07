@@ -1,4 +1,4 @@
-use url::Url;
+use url::{ParseError, Url};
 
 use err::LorisError;
 
@@ -38,8 +38,16 @@ impl fmt::Display for Address {
 
 impl FromStr for Address {
     type Err = LorisError;
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let addr = s.parse::<Url>()?;
-        Ok(Address { addr })
+    fn from_str(addr: &str) -> Result<Self, Self::Err> {
+        let parsed_addr = addr.parse::<Url>();
+        let parsed_addr = if let Err(ParseError::RelativeUrlWithoutBase) = parsed_addr {
+            // No scheme was specified, let's try a default
+            const DEFAULT_SCHEME: &str = "http://";
+            let with_scheme = DEFAULT_SCHEME.to_string() + addr;
+            with_scheme.parse::<Url>()?
+        } else {
+            parsed_addr?
+        };
+        Ok(Address { addr: parsed_addr })
     }
 }
