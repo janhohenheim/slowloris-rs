@@ -5,7 +5,7 @@ extern crate clap;
 use clap::{Arg, ArgMatches};
 
 fn main() {
-    let matches = app_from_crate!()
+    let matches = command!()
         .arg(
             Arg::with_name("URL")
                 .help("Specifies which URL to attack")
@@ -13,7 +13,7 @@ fn main() {
         )
         .arg(
             Arg::with_name("timeout")
-                .short("t")
+                .short('t')
                 .long("timeout")
                 .value_name("MILLISECONDS")
                 .default_value("4500")
@@ -21,7 +21,7 @@ fn main() {
         )
         .arg(
             Arg::with_name("requests")
-                .short("r")
+                .short('r')
                 .long("requests")
                 .value_name("NUM")
                 .default_value("1024")
@@ -29,7 +29,7 @@ fn main() {
         )
         .arg(
             Arg::with_name("waves")
-                .short("w")
+                .short('w')
                 .long("waves")
                 .value_name("NUM")
                 .default_value("100")

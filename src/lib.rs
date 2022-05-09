@@ -57,7 +57,6 @@ fn get_stream(addr: &Address) -> Stream<TcpStream> {
         .expect(&format!("Failed to connect to {}:{}", domain, port));
     if addr.is_https() {
         let connector = TlsConnector::builder()
-            .expect("Failed to create TlsConnectorBuilder")
             .build()
             .expect("Failed to build TlsConnector");
         Stream::Tls(
@@ -80,7 +79,7 @@ fn spawn_connection(addr: &Address, init_header: &[u8]) -> Stream<TcpStream> {
 
 fn get_init_header(addr: &Address) -> Vec<u8> {
     let mut rng = rand::thread_rng();
-    let user_agent = consts::USER_AGENTS[rng.gen_range(0, consts::USER_AGENTS.len())];
+    let user_agent = consts::USER_AGENTS[rng.gen_range(0..consts::USER_AGENTS.len())];
     format!(
         "GET {} HTTP/1.1\r\n\
          Host: {}\r\n\

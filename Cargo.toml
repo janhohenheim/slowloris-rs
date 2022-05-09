@@ -1,5 +1,8 @@
 [package]
-authors = ["Jan Nils Ferner <jn_ferner@hotmail.de>", "Ruben Schmidmeister <ruben.schmidmeister@icloud.com>"]
+authors = [
+    "Jan Hohenheim <jan@hohenheim.ch>",
+    "Ruben Schmidmeister <ruben.schmidmeister@icloud.com>",
+]
 categories = [
     "command-line-utilities",
     "web-programming",
@@ -20,8 +23,8 @@ repository = "https://github.com/SirRade/slowloris-rs"
 version = "1.2.0"
 
 [dependencies]
-clap = "2.27.1"
-native-tls = "0.1.4"
-rand = "0.3.17"
-rayon = "0.8.2"
-url = "1.6.0"
+clap = { version = "3.1.17", features = ["cargo"] }
+native-tls = "0.2.10"
+rand = "0.8.5"
+rayon = "1.5.2"
+url = "2.2.2"
